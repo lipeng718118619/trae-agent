@@ -22,6 +22,7 @@ class LLMProvider(Enum):
     OPENROUTER = "openrouter"
     DOUBAO = "doubao"
     GOOGLE = "google"
+    Qwen="qwen"
 
 
 class LLMClient:
@@ -32,6 +33,11 @@ class LLMClient:
         self.model_config: ModelConfig = model_config
 
         match self.provider:
+            case LLMProvider.Qwen:
+                from .qwen_client import QwenClient
+
+                self.client = QwenClient(model_config)
+
             case LLMProvider.OPENAI:
                 from .openai_client import OpenAIClient
 

@@ -44,6 +44,7 @@ class ModelConfig:
     candidate_count: int | None = None  # Gemini specific field
     stop_sequences: list[str] | None = None
     max_completion_tokens: int | None = None  # Azure OpenAI specific field
+    enable_thinking : bool | None = None
 
     def get_max_tokens_param(self) -> int:
         """Get the maximum tokens parameter value.Prioritizes max_completion_tokens, falls back to max_tokens if not available."""

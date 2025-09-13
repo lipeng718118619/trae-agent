@@ -5,6 +5,7 @@
 
 import json
 from abc import ABC, abstractmethod
+from turtle import mode
 from typing import override
 
 import openai
@@ -91,6 +92,10 @@ class OpenAICompatibleClient(BaseLLMClient):
         else:
             token_params["max_tokens"] = model_config.get_max_tokens_param()
 
+        extra_body={"enable_thinking": False}
+        if model_config.enable_thinking:
+            extra_body={"enable_thinking": True}
+
         return self.client.chat.completions.create(
             model=model_config.model,
             messages=self.message_history,
@@ -103,7 +108,9 @@ class OpenAICompatibleClient(BaseLLMClient):
             top_p=model_config.top_p,
             extra_headers=extra_headers if extra_headers else None,
             n=1,
+            extra_body= extra_body,
             **token_params,
+        
         )
 
     @override
